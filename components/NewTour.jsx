@@ -27,6 +27,7 @@ const NewTour = () => {
       const existingTour = await getExistingTour(destination);
       if (existingTour) return existingTour;
 
+      console.log('New Tour JSX user id : ', userId);
       const currentTokens = await fetchUserTokensById(userId)
       if (currentTokens < 300) {
         toast.error('Token balance too low...')

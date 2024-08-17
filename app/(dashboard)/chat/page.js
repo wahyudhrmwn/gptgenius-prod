@@ -9,7 +9,7 @@ const ChatPage = () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-    <Chat />
+      <Chat />
     </HydrationBoundary>
   )
 }

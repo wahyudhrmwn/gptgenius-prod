@@ -9,12 +9,14 @@ import toast from 'react-hot-toast'
 
 const Chat = () => {
   const { userId } = useAuth()
+  console.log(userId);
 
   const [text, setText] = useState('')
   const [messages, setMessages] = useState([])
 
   const {mutate, isPending} = useMutation({
     mutationFn: async (query) => {
+      console.log('Chat JSX user id : ', userId);
       const currentTokens = await fetchUserTokensById(userId)
       if (currentTokens < 100) {
         toast.error('Token balance too low...')
