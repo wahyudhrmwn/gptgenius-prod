@@ -5,7 +5,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")  // Used for regular database operations
-  directUrl = env("DIRECT_URL")     // Used for migrations and administrative tasks
 }
 
 

@@ -4,9 +4,6 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import TourInfo from "@/components/TourInfo";
 import Image from "next/image";
-import axios from "axios";
-
-const url = `https://api.unsplash.com/search/photos?client_id=${process.env.UNSPLASH_API_KEY}&query=`
 
 const SingleTourPage = async ({ params }) => {
   const tour = await getSingleTour(params.id);
@@ -15,14 +12,17 @@ const SingleTourPage = async ({ params }) => {
     redirect("/tours");
   }
 
-  const { data } = await axios.get(`${url}${tour.city}`)
-  
-  const tourImage = data?.results[0]?.urls?.raw
-
-  // const tourImage = await generateTourImage({
-  //   city: tour.city,
-  //   country: tour.country,
-  // });
+  // Generate tour image with error handling
+  let tourImage = null;
+  try {
+    tourImage = await generateTourImage({
+      city: tour.city,
+      country: tour.country,
+    });
+  } catch (error) {
+    console.error("Error generating tour image:", error);
+    // Continue without image if generation fails
+  }
 
   return (
     <div>
@@ -40,7 +40,11 @@ const SingleTourPage = async ({ params }) => {
             priority
           />
         </div>
-      ) : null}
+      ) : (
+        <div className="rounded-xl shadow-xl mb-16 h-96 w-96 bg-gray-200 flex items-center justify-center">
+          <p className="text-gray-500">Image not available</p>
+        </div>
+      )}
       <TourInfo tour={tour} />
     </div>
   );
